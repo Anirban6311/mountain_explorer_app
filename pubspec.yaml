@@ -1,0 +1,31 @@
+name: basic_crud_flutter
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  firebase_core: ^2.27.0
+  cloud_firestore: ^4.15.8
+  random_string: ^2.3.1
+  fluttertoast: ^8.2.4
+  http: ^1.2.1
+  lottie: ^3.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/Images/
+    - assets/Animations/
+    # Assuming your images are in a folder named "images" in the root of your project

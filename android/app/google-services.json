@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "935877536444",
+    "project_id": "btack-5f03e",
+    "storage_bucket": "btack-5f03e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935877536444:android:368c2f66c23a856153beb9",
+        "android_client_info": {
+          "package_name": "com.example.monuments_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbuzacMkEh-B-yCjFKEwNnDsNS5R8mxA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

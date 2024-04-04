@@ -1,0 +1,234 @@
+[
+  {
+    "name": "Shimla",
+    "imageUrl": "https://images.pexels.com/photos/5238342/pexels-photo-5238342.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "description": "Popular hill station known for its colonial architecture, scenic beauty, and Mall Road shopping."
+  },
+  {
+    "name": "Manali",
+    "imageUrl": "https://images.pexels.com/photos/5205097/pexels-photo-5205097.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    "description": "Famous for adventure sports, Hadimba Temple, and scenic views of Beas River and Solang Valley."
+  },
+  {
+    "name": "Darjeeling",
+    "imageUrl": "https://media.assettype.com/outlooktraveller%2F2024-01%2Faed3bd54-2242-49a6-aa8a-9bf587d05ff9%2FDarjeeling.jpg?rect=0%2C0%2C800%2C450&w=1200&auto=format%2Ccompress&fit=max",
+    "description": "Renowned for tea gardens, Toy Train, Tiger Hill sunrise view, and stunning vistas of Kanchenjunga."
+  },
+  {
+    "name": "Mussoorie",
+    "imageUrl": "https://www.worldatlas.com/r/w960-q80/upload/18/4e/b2/kunal-parmar-ondryteh31g-unsplash.jpg",
+    "description": "Known as the 'Queen of Hills' with attractions like Kempty Falls, Gun Hill, and Lal Tibba."
+  },
+  {
+    "name": "Nainital",
+    "imageUrl": "https://images.unsplash.com/photo-1610715936287-6c2ad208cdbf?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Scenic hill station surrounding Naini Lake, Naina Devi Temple, and Naini Peak viewpoints."
+  },
+  {
+    "name": "Ooty",
+    "imageUrl": "https://images.unsplash.com/photo-1580979222901-12a0e56abf7d?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Popular for its Nilgiri Mountain Railway, Botanical Gardens, and picturesque landscapes."
+  },
+  {
+    "name": "Munnar",
+    "imageUrl": "https://images.unsplash.com/photo-1629813538702-64c925934e19?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Famous for tea plantations, Eravikulam National Park, and Anamudi Peak."
+  },
+  {
+    "name": "Kodaikanal",
+    "imageUrl": "https://images.unsplash.com/photo-1633931698758-f59cdaf042a2?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Known for its scenic beauty, Kodaikanal Lake, Coaker's Walk, and Bryant Park."
+  },
+  {
+    "name": "Gulmarg",
+    "imageUrl": "https://images.unsplash.com/photo-1621232082074-1a7750ecc557?q=80&w=1854&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Renowned for skiing, Gondola rides, and beautiful landscapes in the Pir Panjal range."
+  },
+  {
+    "name": "Gangtok",
+    "imageUrl": "https://plus.unsplash.com/premium_photo-1697730418140-064a5b6c2e17?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Capital of Sikkim offering monasteries, scenic viewpoints, and trekking opportunities."
+  },
+  {
+    "name": "Leh",
+    "imageUrl": "https://plus.unsplash.com/premium_photo-1661962344178-19930ba15492?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Gateway to Ladakh known for monasteries, high-altitude treks, and breathtaking landscapes."
+  },
+  {
+    "name": "Auli",
+    "imageUrl": "https://images.unsplash.com/photo-1623727705498-51a6a4154384?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Famous for skiing, cable car rides, and panoramic views of Himalayan peaks like Nanda Devi."
+  },
+  {
+    "name": "Coorg",
+    "imageUrl": "https://images.unsplash.com/photo-1560357647-62a43d9897bb?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Known as the 'Scotland of India' with coffee plantations, waterfalls, and Abbey Falls."
+  },
+  {
+    "name": "Kullu",
+    "imageUrl": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Valley known for adventure sports, scenic beauty, and temples like Raghunath Temple."
+  },
+  {
+    "name": "Ladakh",
+    "imageUrl": "https://images.unsplash.com/photo-1619837374214-f5b9eb80876d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "High-altitude desert offering adventure activities, monasteries, and stunning landscapes."
+  },
+  {
+    "name": "Almora",
+    "imageUrl": "https://images.unsplash.com/photo-1667029839662-dfdea39a6c40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Hill town known for temples, panoramic views of Himalayas, and Kasar Devi Temple."
+  },
+  {
+    "name": "Matheran",
+    "imageUrl": "https://images.unsplash.com/photo-1632091239504-f2473a06d7ce?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Vehicle-free hill station offering scenic points, toy train rides, and sunset views."
+  },
+  {
+    "name": "Mount Abu",
+    "imageUrl": "https://images.unsplash.com/photo-1504803184203-dd2dba6aa00e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Rajasthan's only hill station famous for Dilwara Temples, Nakki Lake, and sunset point."
+  },
+  {
+    "name": "Pahalgam",
+    "imageUrl": "https://images.unsplash.com/photo-1612026342893-4d76f8a61d5c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Picturesque valley known for Betaab Valley, Lidder River, and Aru Valley."
+  },
+  {
+    "name": "Kalimpong",
+    "imageUrl": "https://images.unsplash.com/photo-1636294734011-3a642de28d8a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Peaceful hill station offering views of Himalayan ranges, monasteries, and flower nurseries."
+  },
+  {
+    "name": "Nandi Hills",
+    "imageUrl": "https://images.unsplash.com/photo-1692155861048-c23debed7eb8?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Popular weekend getaway near Bangalore with viewpoints, temples, and paragliding."
+  },
+  {
+    "name": "Rishikesh",
+    "imageUrl": "https://plus.unsplash.com/premium_photo-1697729439457-85d4b9d3a2cb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Famous for yoga, adventure sports, spiritual sites, and the Ganges riverbank."
+  },
+  {
+    "name": "Kasauli",
+    "imageUrl": "https://images.unsplash.com/photo-1671804162411-e47765dc5c82?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Quiet hill station known for its colonial architecture, Christ Church, and Monkey Point."
+  },
+  {
+    "name": "Lansdowne",
+    "imageUrl": "https://www.seawatersports.com/img/newimage/places/lansdowne.jpg",
+    "description": "Offbeat hill station offering peace, trekking trails, and panoramic views of Shivalik range."
+  },
+  {
+    "name": "Yercaud",
+    "imageUrl": "https://images.unsplash.com/photo-1565195160611-251c9f88dc9c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Serenely beautiful hill station with Yercaud Lake, botanical garden, and viewpoints."
+  },
+  {
+    "name": "Chamba",
+    "imageUrl": "https://images.unsplash.com/photo-1694002290786-1b32452dc1c7?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Scenic hill town known for temples, lakes, and panoramic views of Himalayas."
+  },
+  {
+    "name": "Patnitop",
+    "imageUrl": "https://images.unsplash.com/photo-1575705107791-37500552f27e?q=80&w=1859&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Hill station offering adventure sports, Nathatop viewpoints, and Nag Temple."
+  },
+  {
+    "name": "Wayanad",
+    "imageUrl": "https://images.unsplash.com/photo-1607054931379-95e37fc6684b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Picturesque hill district known for wildlife sanctuaries, waterfalls, and Edakkal Caves."
+  },
+  {
+    "name": "Kasol",
+    "imageUrl": "https://images.unsplash.com/photo-1612638039814-1a67ea727114?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Famous for hippie culture, trekking trails, Parvati River, and Manikaran Sahib Gurudwara."
+  },
+  {
+    "name": "Tawang",
+    "imageUrl": "https://images.unsplash.com/photo-1626761627604-f27d98885f4b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Remote hill station famous for Tawang Monastery, Sela Pass, and stunning natural beauty."
+  },
+  {
+    "name": "Kufri",
+    "imageUrl": "https://images.unsplash.com/photo-1638951239897-89cea3d899de?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Scenic hill station offering skiing, hiking, and panoramic views of Himalayan peaks."
+  },
+  {
+    "name": "Mashobra",
+    "imageUrl": "https://images.unsplash.com/photo-1609789943647-f13f539a649e?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Quieter alternative to Shimla with apple orchards, hiking trails, and Craignano Nature Park."
+  },
+  {
+    "name": "Coonoor",
+    "imageUrl": "https://images.unsplash.com/photo-1620498590128-b780a069fdc0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Quaint hill station known for tea gardens, Sim's Park, and viewpoints like Dolphin's Nose."
+  },
+  {
+    "name": "Srinagar",
+    "imageUrl": "https://images.unsplash.com/photo-1564329494258-3f72215ba175?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Capital of Jammu and Kashmir with Dal Lake, Mughal gardens, and houseboat stays."
+  },
+  {
+    "name": "Pelling",
+    "imageUrl": "https://images.unsplash.com/photo-1668350203226-bb8b7990e74a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Scenic town with views of Kanchenjunga, Pemayangtse Monastery, and Sangachoeling Monastery."
+  },
+  {
+    "name": "Narkanda",
+    "imageUrl": "https://images.unsplash.com/photo-1673471241965-948ed25082d1?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Skiing destination offering apple orchards, Hatu Peak, and views of Himalayan ranges."
+  },
+  {
+    "name": "Dharamshala",
+    "imageUrl": "https://images.unsplash.com/photo-1625401586082-9a9b17bc4ce5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Home to Dalai Lama, Tibetan culture, Bhagsunag Temple, and scenic Kangra Valley."
+  },
+  {
+    "name": "Lonavala",
+    "imageUrl": "https://images.unsplash.com/photo-1589286875480-743411b84f53?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Popular weekend getaway near Mumbai known for Bhushi Dam, Tiger's Leap, and Lohagad Fort."
+  },
+  {
+    "name": "Gulaba",
+    "imageUrl": "https://3.imimg.com/data3/YH/SH/MY-9407061/gulaba-heights-500x500.jpg",
+    "description": "Scenic spot en route to Rohtang Pass offering snow activities and stunning landscapes."
+  },
+  {
+    "name": "Horsley Hills",
+    "imageUrl": "https://images.unsplash.com/photo-1521579901924-af922689e163?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Quiet hill station in Andhra Pradesh known for viewpoints, Mallamma Temple, and nature trails."
+  },
+  {
+    "name": "Chikmagalur",
+    "imageUrl": "https://images.unsplash.com/photo-1601283197965-2090b43fca4f?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Famous for coffee plantations, Mullayanagiri Peak, Baba Budangiri, and Hebbe Falls."
+  },
+
+  {
+    "name": "Dhanaulti",
+    "imageUrl": "https://images.unsplash.com/photo-1675246394260-4b311cb3862d?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Offbeat hill station with Eco Park, Surkanda Devi Temple, and breathtaking Himalayan views."
+  },
+  {
+    "name": "Kanatal",
+    "imageUrl": "https://images.unsplash.com/photo-1581247838175-693caf56a86b?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Scenic hill station offering camping, trekking, and views of snow-capped peaks."
+  },
+  {
+    "name": "Panchgani",
+    "imageUrl": "https://images.unsplash.com/photo-1661522952871-24a5b883dd54?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Hill station known for strawberry farms, Table Land, and views of Krishna Valley."
+  },
+  {
+    "name": "Nagarkot",
+    "imageUrl": "https://images.unsplash.com/photo-1610428418346-535c21b8a678?q=80&w=1890&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Scenic hill station near Kathmandu offering views of Himalayas, sunrise, and sunset."
+  },
+
+  {
+    "name": "Tirthan Valley",
+    "imageUrl": "https://images.unsplash.com/photo-1651391647095-2cea9fe0970d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "Offbeat destination in Himachal Pradesh offering trout fishing, trekking, and serenity."
+  }
+]
