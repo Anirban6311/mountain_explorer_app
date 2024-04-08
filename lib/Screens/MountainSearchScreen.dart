@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:basic_crud_flutter/Services/Mountainjson.dart';
 
 class HillStationSearchPage extends StatefulWidget {
   final String location;
@@ -17,13 +19,16 @@ class HillStationSearchPage extends StatefulWidget {
 class _HillStationSearchPageState extends State<HillStationSearchPage> {
   List<String> _hillStationNames = [];
   List<String> mountainNames=[];
+  late List<Mountain> mountains=[];
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _searchHillStations(widget.location);
+    loadMountains();
   }
+
 
 
   Future<void> _searchHillStations(String location) async {
@@ -102,10 +107,10 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
     ];
     try {
       Set<String> hillStationNames = Set();
-
+  /// iterating through the popular list and fetching only those stations present in the list
       for (var station in popularHillStations) {
         String url =
-            'https://overpass-api.de/api/interpreter?data=[out:json];(node(around:300000,$latitude,$longitude)["name"="$station"];);out;'; // radius reduced to 300 kilometers
+            'https://overpass-api.de/api/interpreter?data=[out:json];(node(around:700000,$latitude,$longitude)["name"="$station"];);out;'; // radius reduced to 300 kilometers
 
         var response = await http.get(Uri.parse(url));
         if (response.statusCode == 200) {
@@ -132,8 +137,23 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
     }
   }
 
+  Future<void> loadMountains()  async{
+    String jsonString= await rootBundle.loadString('assets/hill_station.json');
+    List<dynamic> mountainData=jsonDecode(jsonString);
+
+    setState(() {
+      mountains=mountainData.map((json) => Mountain.fromJson(json)).toList();
+    });
+  }
+
+  List<Mountain> filterMountains() {
+    // Filter mountains based on mountainNames list
+    return mountains.where((mountain) => _hillStationNames.contains(mountain.name)).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Mountain> filteredMountains = filterMountains();
     return Scaffold(
       appBar: AppBar(
         title: Text('Hill Station Search'),
@@ -151,16 +171,37 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
             SizedBox(height: 60.0),
             _isLoading
                 ? Lottie.asset('assets/Animations/bus_animation.json')
-                : Expanded(
-              child: ListView.builder(
-                itemCount: _hillStationNames.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_hillStationNames[index]),
-                  );
-                },
-              ),
-            ),
+
+            : Expanded(
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1, // Adjust the number of columns as needed
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: filteredMountains.length,
+                    itemBuilder: (context,index) {
+                      Mountain mountain= filteredMountains[index];
+                      return GridTile(
+                          child: Column(
+                              children: [
+                                Container(
+                                  height:300,
+                                  width: 400,
+                                  child: AspectRatio(
+                                      aspectRatio: 9 / 16,
+                                      child: Image.network(
+                                        mountain.imageUrl,
+                                        fit: BoxFit.cover,
+                                      )
+                                  ),
+                                )
+                              ],
+                          )
+                      );
+                    }
+                )
+            )
           ],
         ),
       ),

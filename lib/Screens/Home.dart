@@ -1,3 +1,4 @@
+import 'package:basic_crud_flutter/Screens/Allmountains.dart';
 import 'package:flutter/material.dart';
 
 import 'MountainSearchScreen.dart';
@@ -103,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   GestureDetector(
                     onTap: (){
-                      // Navigator.push(context, MaterialPageRoute(builder: (context)=>HillStationSearchPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>allmountainsview()));
                     },
                     child: Stack(
                       children: [
