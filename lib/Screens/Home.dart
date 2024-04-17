@@ -10,12 +10,37 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 
+
+
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  double screenHeight = 0;
+  double screenWidth = 0;
+  bool startAnimation = false;
+
   TextEditingController _locationController= TextEditingController();
+  List<String>LikedHills=[];
+  void updateLikedHills(List<String> updatedLikedHills) {
+    setState(() {
+      LikedHills = updatedLikedHills;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        startAnimation = true;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -104,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>allmountainsview()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>allmountainsview(likedHills: LikedHills, updateLikedHills: updateLikedHills)));
                     },
                     child: Stack(
                       children: [
@@ -139,7 +164,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     child: Column(
                       children: [
-                        Text("History")
+                        Text("Liked Hill Stations"),
+                        Container(
+                          height: 200, // Adjust the height as needed
+                          child: ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: LikedHills.length,
+                            itemBuilder: (context, index) {
+                              return item(index);
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   )///for the history
@@ -165,6 +201,45 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      
     );
   }
+
+  Widget item(int index) {
+    return AnimatedContainer(
+      height: 55,
+      width: screenWidth,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 300 + (index * 200)),
+      transform: Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
+      margin: const EdgeInsets.only(
+        bottom: 12,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: screenWidth / 20,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "${index + 1}. ${LikedHills[index]}",
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
+
 }
+  
+
+
+

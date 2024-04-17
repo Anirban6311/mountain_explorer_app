@@ -164,14 +164,19 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 20.0),
-            Text(
-              'Nearby Hill Stations:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Center(
+              child: Text(
+                'Nearby Hill Stations from ${widget.location}',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                ),
+
+              ),
             ),
-            SizedBox(height: 60.0),
+            SizedBox(height: 40.0),
             _isLoading
                 ? Lottie.asset('assets/Animations/bus_animation.json')
-
             : Expanded(
                 child: GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -185,15 +190,35 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
                       return GridTile(
                           child: Column(
                               children: [
-                                Container(
-                                  height:300,
-                                  width: 400,
-                                  child: AspectRatio(
-                                      aspectRatio: 9 / 16,
-                                      child: Image.network(
-                                        mountain.imageUrl,
-                                        fit: BoxFit.cover,
-                                      )
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        height:360,
+                                        width: 350,
+                                        child: AspectRatio(
+                                            aspectRatio: 9 / 16,
+                                            child: Image.network(
+                                              mountain.imageUrl,
+                                              fit: BoxFit.cover,
+                                            )
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 30, // Adjust the position as needed
+                                        left: 30, // Adjust the position as needed
+                                        child: Text(
+                                          mountain.name,
+                                          style: TextStyle(
+                                            color: Colors.yellowAccent,
+                                            fontSize: 27,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
                                   ),
                                 )
                               ],
