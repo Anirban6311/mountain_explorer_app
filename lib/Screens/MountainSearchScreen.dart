@@ -156,78 +156,82 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
     List<Mountain> filteredMountains = filterMountains();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFFFAF45),
         title: Text('Hill Station Search'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(height: 20.0),
-            Center(
-              child: Text(
-                'Nearby Hill Stations from ${widget.location}',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                ),
+      body: Container(
+        color: Color(0xFFF8F6E3),
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 20.0),
+              Center(
+                child: Text(
+                  'Nearby Hill Stations from ${widget.location}',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                  ),
 
+                ),
               ),
-            ),
-            SizedBox(height: 40.0),
-            _isLoading
-                ? Lottie.asset('assets/Animations/bus_animation.json')
-            : Expanded(
-                child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1, // Adjust the number of columns as needed
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
-                    itemCount: filteredMountains.length,
-                    itemBuilder: (context,index) {
-                      Mountain mountain= filteredMountains[index];
-                      return GridTile(
-                          child: Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        height:360,
-                                        width: 350,
-                                        child: AspectRatio(
-                                            aspectRatio: 9 / 16,
-                                            child: Image.network(
-                                              mountain.imageUrl,
-                                              fit: BoxFit.cover,
-                                            )
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 30, // Adjust the position as needed
-                                        left: 30, // Adjust the position as needed
-                                        child: Text(
-                                          mountain.name,
-                                          style: TextStyle(
-                                            color: Colors.yellowAccent,
-                                            fontSize: 27,
-                                            fontWeight: FontWeight.bold,
+              SizedBox(height: 40.0),
+              _isLoading
+                  ? Lottie.asset('assets/Animations/bus_animation.json')
+              : Expanded(
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1, // Adjust the number of columns as needed
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                      itemCount: filteredMountains.length,
+                      itemBuilder: (context,index) {
+                        Mountain mountain= filteredMountains[index];
+                        return GridTile(
+                            child: Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height:360,
+                                          width: 350,
+                                          child: AspectRatio(
+                                              aspectRatio: 9 / 16,
+                                              child: Image.network(
+                                                mountain.imageUrl,
+                                                fit: BoxFit.cover,
+                                              )
                                           ),
                                         ),
-                                      ),
+                                        Positioned(
+                                          top: 30, // Adjust the position as needed
+                                          left: 30, // Adjust the position as needed
+                                          child: Text(
+                                            mountain.name,
+                                            style: TextStyle(
+                                              color: Colors.yellowAccent,
+                                              fontSize: 27,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
 
-                                    ],
-                                  ),
-                                )
-                              ],
-                          )
-                      );
-                    }
-                )
-            )
-          ],
+                                      ],
+                                    ),
+                                  )
+                                ],
+                            )
+                        );
+                      }
+                  )
+              )
+            ],
+          ),
         ),
       ),
     );

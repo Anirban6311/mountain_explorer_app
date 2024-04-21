@@ -1,5 +1,8 @@
 import 'package:basic_crud_flutter/Screens/Allmountains.dart';
+import 'package:basic_crud_flutter/Widgets/NavBar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'MountainSearchScreen.dart';
 
@@ -10,8 +13,6 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 
-
-
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -19,8 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
   double screenWidth = 0;
   bool startAnimation = false;
 
-  TextEditingController _locationController= TextEditingController();
-  List<String>LikedHills=[];
+
+  TextEditingController _locationController = TextEditingController();
+  List<String>LikedHills = [];
+
   void updateLikedHills(List<String> updatedLikedHills) {
     setState(() {
       LikedHills = updatedLikedHills;
@@ -37,17 +40,25 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    screenHeight = MediaQuery.of(context).size.height;
-    screenWidth = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+    screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     return Scaffold(
+      drawer: NavBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: 260,
-              color: Color(0xFFE6E6FA),
+              color: Color(0xFFF8F6E3),
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               text: "Hi ",
                               style: TextStyle(
                                 fontSize: 30,
-                                color: Colors.black, // You can change color here
+                                color: Colors
+                                    .black, // You can change color here
                               ),
                             ),
                             TextSpan(
@@ -94,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 25,),
                   Container(
+
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25.0),
                       border: Border.all(color: Colors.black),
@@ -102,16 +115,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       controller: _locationController,
                       decoration: InputDecoration(
                         hintText: "Search",
-                        contentPadding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 5),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 5),
                         border: InputBorder.none,
                         suffixIcon: GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => HillStationSearchPage(location: _locationController.text,)));
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) =>
+                                    HillStationSearchPage(
+                                      location: _locationController.text,)));
                           },
                           child: Container(
                             padding: EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              border: Border(left: BorderSide(color: Colors.transparent)),
+                              border: Border(
+                                  left: BorderSide(color: Colors.transparent)),
                             ),
                             child: Icon(Icons.search, color: Colors.purple),
                           ),
@@ -119,17 +137,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20), // Adding padding between the container and the screen
+                  SizedBox(height: 20),
+                  // Adding padding between the container and the screen
                 ],
               ),
             ),
             SizedBox(height: 40,),
             Container(
+
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>allmountainsview(likedHills: LikedHills, updateLikedHills: updateLikedHills)));
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => allmountainsview(
+                              likedHills: LikedHills,
+                              updateLikedHills: updateLikedHills)));
                     },
                     child: Stack(
                       children: [
@@ -140,7 +163,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(25.0),
                             border: Border.all(color: Colors.black),
                             image: DecorationImage(
-                              image: AssetImage('assets/Images/AdobeStock_78089331_Preview.jpeg'),
+                              image: AssetImage(
+                                  'assets/Images/AdobeStock_78089331_Preview.jpeg'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -161,85 +185,47 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(height: 20,),
-                  Container(
-                    child: Column(
-                      children: [
-                        Text("Liked Hill Stations"),
-                        Container(
-                          height: 200, // Adjust the height as needed
-                          child: ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: LikedHills.length,
-                            itemBuilder: (context, index) {
-                              return item(index);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  )///for the history
+
+
                 ],
               ),
             )
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+
+          child: BottomNavigationBar(
+            backgroundColor: Color(0xFFED9455),
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home, color: Colors.black,),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person,color: Colors.black,),
+                label: 'Profile',
+              ),
+            ],
+            // Define the selected and unselected label styles
+            // Change color to your desired color
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.black,
+          )
+
+        ),
       ),
-      
+
     );
   }
 
-  Widget item(int index) {
-    return AnimatedContainer(
-      height: 55,
-      width: screenWidth,
-      curve: Curves.easeInOut,
-      duration: Duration(milliseconds: 300 + (index * 200)),
-      transform: Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
-      margin: const EdgeInsets.only(
-        bottom: 12,
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: screenWidth / 20,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "${index + 1}. ${LikedHills[index]}",
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
 
-        ],
-      ),
-    );
-  }
 
 }
-  
+
+
 
 
 
