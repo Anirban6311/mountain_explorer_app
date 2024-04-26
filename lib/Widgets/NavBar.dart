@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Color(0xFFFEFDED),
+      backgroundColor: Color(0xFFF8F6E3),
       child: ListView(
         // Remove padding
         padding: EdgeInsets.zero,
@@ -65,7 +67,9 @@ class NavBar extends StatelessWidget {
           ListTile(
             title: Text('Exit'),
             leading: Icon(Icons.exit_to_app),
-            onTap: () => null,
+            onTap: () {
+              exit(0);
+            },
           ),
         ],
       ),

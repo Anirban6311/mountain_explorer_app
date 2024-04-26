@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'package:basic_crud_flutter/Services/weather.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../Services/Mountainjson.dart';
-import 'package:http/http.dart' as http;
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:basic_crud_flutter/models/weatherModel.dart';
+import '../Services/weather.dart';
 
 class allmountainsview extends StatefulWidget {
   final List<String> likedHills;
@@ -15,40 +15,32 @@ class allmountainsview extends StatefulWidget {
 
   allmountainsview({Key? key, required this.likedHills, required this.updateLikedHills});
 
-
-
-
   @override
   State<allmountainsview> createState() => _allmountainsviewState();
 }
 
 class _allmountainsviewState extends State<allmountainsview> {
-  late List<Mountain> mountains=[];
-  late List<bool> isPressed=[];
-  final _weatherService= WeatherService("1b330849ea15fcd2609c5a8197a98cda");
-  Weather? weather;
-  _fetchWeather() async{
-    try{
-      final weather=await _weatherService.getWeather("cityName");
+  late List<Mountain> mountains = [];
+  late List<bool> isPressed = [];
+  final _weatherService = WeatherService("1b330849ea15fcd2609c5a8197a98cda");
+  Map<String, Weather?> _weatherData = {};
+
+  _fetchWeather(String cityName) async {
+    try {
+      final weather = await _weatherService.getWeather(cityName);
       setState(() {
-        _weather=weather;
+        _weatherData[cityName] = weather;
       });
-    }
-    catch(e){
+    } catch (e) {
       print(e);
     }
   }
 
-
-
   @override
   void initState() {
     super.initState();
-    loadMountains(); // Call the loadMountains function when the widget is initialized
+    loadMountains();
   }
-
-
-
 
   Future<void> loadMountains() async {
     try {
@@ -70,15 +62,17 @@ class _allmountainsviewState extends State<allmountainsview> {
           }
         }
       });
+
+      // Fetch weather for each mountain
+      for (var mountain in mountains) {
+        await _fetchWeather(mountain.name);
+      }
     } catch (error) {
       // Handle any errors that occur during data loading
       print('Error loading mountains: $error');
       // You can display an error message to the user or retry loading data
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -126,32 +120,35 @@ class _allmountainsviewState extends State<allmountainsview> {
     );
   }
 
-
   Widget buildImage(Mountain mountain, int index) {
+    Weather? weather = _weatherData[mountain.name];
 
+    void toggleMountainLikedStatus(int index, Mountain mountain) {
+      setState(() {
+        isPressed[index] = !isPressed[index];
+        if (isPressed[index]) {
+          // Update likedHills locally
+          widget.updateLikedHills([...widget.likedHills, mountain.name]);
+          // Update likedMountains in Firestore
+          FirebaseFirestore.instance.collection('liked_mountains').doc('liked').update({
+            'likedMountains': FieldValue.arrayUnion([mountain.name])
+          });
+        } else {
+          // Remove mountain from likedHills
+          widget.updateLikedHills(widget.likedHills.where((element) => element != mountain.name).toList());
+          // Update likedMountains in Firestore
+          FirebaseFirestore.instance.collection('liked_mountains').doc('liked').update({
+            'likedMountains': FieldValue.arrayRemove([mountain.name])
+          });
+        }
+      });
+    }
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: GestureDetector(
         onDoubleTap: () {
-          setState(() {
-            isPressed[index] = !isPressed[index];
-            if (isPressed[index]) {
-              // Update likedHills locally
-              widget.updateLikedHills([...widget.likedHills, mountain.name]);
-              // Update likedMountains in Firestore
-              FirebaseFirestore.instance.collection('liked_mountains').doc('liked').update({
-                'likedMountains': FieldValue.arrayUnion([mountain.name])
-              });
-            } else {
-              // Remove mountain from likedHills
-              widget.updateLikedHills(widget.likedHills.where((element) => element != mountain.name).toList());
-              // Update likedMountains in Firestore
-              FirebaseFirestore.instance.collection('liked_mountains').doc('liked').update({
-                'likedMountains': FieldValue.arrayRemove([mountain.name])
-              });
-            }
-          });
+          toggleMountainLikedStatus(index, mountain);
         },
         onTap: () {},
         child: Stack(
@@ -159,9 +156,13 @@ class _allmountainsviewState extends State<allmountainsview> {
             Container(
               child: AspectRatio(
                 aspectRatio: 9 / 16,
-                child: Image.network(
-                  mountain.imageUrl,
+                child: mountain.imageUrl != null
+                    ? Image.network(
+                  mountain.imageUrl!,
                   fit: BoxFit.cover,
+                )
+                    : Center(
+                  child: CircularProgressIndicator(), // Display circular loader while image is loading
                 ),
               ),
             ),
@@ -180,26 +181,37 @@ class _allmountainsviewState extends State<allmountainsview> {
             Positioned(
               top: 30,
               right: 40,
-              child: Icon(
-                Icons.add,
-              ),
+              child: weather != null
+                  ? Text(
+                '${weather?.temperature.round()}°C', // Display temperature
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+                  : CircularProgressIndicator(), // Display circular loader while weather is loading
             ),
             Positioned(
-              bottom: 38,
+              bottom: 20,
               left: 140,
-              child: Icon(
-                Icons.favorite,
-                color: isPressed[index] ? Colors.pinkAccent : Colors.white,
-                // Toggle color based on favorite status
-                size: 50,
+              child: GestureDetector(
+                onTap: (){
+                  toggleMountainLikedStatus(index, mountain);
+                },
+                child: Icon(
+                  Icons.favorite,
+                  color: isPressed[index] ? Colors.pinkAccent : Colors.white,
+                  // Toggle color based on favorite status
+                  size: 50,
+                ),
               ),
             ),
           ],
         ),
       ),
     );
+
   }
-
-
 
 }

@@ -33,4 +33,5 @@ flutter:
     - assets/Images/
     - assets/Animations/
     - assets/Images/Mountain_images/
+    - assets/Icons/
     # Assuming your images are in a folder named "images" in the root of your project

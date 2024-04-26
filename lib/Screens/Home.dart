@@ -1,8 +1,10 @@
 import 'package:basic_crud_flutter/Screens/Allmountains.dart';
+import 'package:basic_crud_flutter/Screens/checklist_page.dart';
 import 'package:basic_crud_flutter/Widgets/NavBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 
 import 'MountainSearchScreen.dart';
 
@@ -16,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   double screenHeight = 0;
   double screenWidth = 0;
   bool startAnimation = false;
@@ -52,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         .size
         .width;
     return Scaffold(
+      key: _scaffoldKey,
       drawer: NavBar(),
       body: SingleChildScrollView(
         child: Column(
@@ -142,9 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 40,),
+            SizedBox(height: 30,),
             Container(
-
               child: Column(
                 children: [
                   GestureDetector(
@@ -184,9 +188,68 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 40,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Checklist()));
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          height: 200,
+                          width: 180,
+                          color: Color(0xFFDD5746),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 30,
+                                left: 15,
+                                child: Text("Hill \nStation \nCheckList",
+                                style: TextStyle(color: Colors.white, fontSize: 22),),
+                              ),
+                              Positioned(
+                                top: 27,
+                                right: 15,
+                                child: Image.asset("assets/Icons/checklist.png",height: 50,),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                          height: 200,
+                          width: 180,
+                          color: Color(0xFFDC6B19),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                top: 35,
+                                left: 15,
+                                child: Text(
+                                  "Trek \nCommunity",
+                                  style: TextStyle(color: Colors.white, fontSize: 22),
+                                ),
+                              ),
+                              Positioned(
+                                top: 22,
+                                right: 12,
+                                child: Image.asset("assets/Icons/icons8-community-96.png", height: 65),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
 
-
+                  ],
+                )
                 ],
               ),
             )
@@ -198,21 +261,27 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
 
           child: BottomNavigationBar(
-            backgroundColor: Color(0xFFED9455),
+            backgroundColor: Color(0xFF97E7E1),
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.home, color: Colors.black,),
+                icon: Icon(Icons.home, color: Colors.purpleAccent,),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person,color: Colors.black,),
-                label: 'Profile',
+                icon: Icon(Icons.list_alt_outlined,color: Colors.black,),
+                label: 'Menu',
               ),
             ],
+            onTap: (int index) {
+              if (index == 1) {
+                // When profile icon is tapped, open the drawer
+                _scaffoldKey.currentState!.openDrawer();
+              }
+            },
             // Define the selected and unselected label styles
             // Change color to your desired color
-            selectedItemColor: Colors.black,
-            unselectedItemColor: Colors.black,
+            selectedItemColor: Colors.purpleAccent,
+            unselectedItemColor: Colors.purpleAccent,
           )
 
         ),
