@@ -1,10 +1,13 @@
 import 'package:basic_crud_flutter/Screens/Allmountains.dart';
 import 'package:basic_crud_flutter/Screens/checklist_page.dart';
+import 'package:basic_crud_flutter/Screens/trek_community.dart';
 import 'package:basic_crud_flutter/Widgets/NavBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 import 'MountainSearchScreen.dart';
 
@@ -201,14 +204,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                           height: 200,
                           width: 180,
-                          color: Color(0xFFDD5746),
+                          color: Color(0xFFDA0C81),
                           child: Stack(
                             children: [
                               Positioned(
-                                top: 30,
+                                top: 38,
                                 left: 15,
                                 child: Text("Hill \nStation \nCheckList",
-                                style: TextStyle(color: Colors.white, fontSize: 22),),
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 22,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold
+                                ),),
                               ),
                               Positioned(
                                 top: 27,
@@ -221,20 +228,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TrekkerBlogScreen(),
+                          ),
+                        );
+
+                      },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
                           height: 200,
                           width: 180,
-                          color: Color(0xFFDC6B19),
+                          color: Color(0xFF4CCD99),
                           child: Stack(
                             children: [
                               Positioned(
-                                top: 35,
+                                top: 40,
                                 left: 15,
                                 child: Text(
                                   "Trek \nCommunity",
-                                  style: TextStyle(color: Colors.white, fontSize: 22),
+                                  style:GoogleFonts.montserrat(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                ),
                                 ),
                               ),
                               Positioned(

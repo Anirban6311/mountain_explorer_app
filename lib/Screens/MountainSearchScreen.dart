@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -107,7 +108,7 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
     ];
     try {
       Set<String> hillStationNames = Set();
-  /// iterating through the popular list and fetching only those stations present in the list
+      /// iterating through the popular list and fetching only those stations present in the list
       for (var station in popularHillStations) {
         String url =
             'https://overpass-api.de/api/interpreter?data=[out:json];(node(around:700000,$latitude,$longitude)["name"="$station"];);out;'; // radius reduced to 300 kilometers
@@ -171,16 +172,33 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
                 child: Text(
                   'Nearby Hill Stations from ${widget.location}',
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
 
                 ),
               ),
               SizedBox(height: 40.0),
               _isLoading
-                  ? Lottie.asset('assets/Animations/bus_animation.json')
-              : Expanded(
+                  ? Column(
+                    children: [
+                      Container(
+                        child: AnimatedTextKit(
+                          repeatForever: true, // Set to true to repeat the animation infinitely
+                          animatedTexts: [
+                            TypewriterAnimatedText(
+                              "This is the app",
+                              textStyle: TextStyle(
+                                fontSize: 30,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(child: Lottie.asset('assets/Animations/bus_animation.json')),
+                    ],
+                  )
+                  : Expanded(
                   child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 1, // Adjust the number of columns as needed
@@ -192,39 +210,39 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
                         Mountain mountain= filteredMountains[index];
                         return GridTile(
                             child: Column(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          height:360,
-                                          width: 350,
-                                          child: AspectRatio(
-                                              aspectRatio: 9 / 16,
-                                              child: Image.network(
-                                                mountain.imageUrl,
-                                                fit: BoxFit.cover,
-                                              )
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        height:360,
+                                        width: 350,
+                                        child: AspectRatio(
+                                            aspectRatio: 9 / 16,
+                                            child: Image.network(
+                                              mountain.imageUrl,
+                                              fit: BoxFit.cover,
+                                            )
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 30, // Adjust the position as needed
+                                        left: 30, // Adjust the position as needed
+                                        child: Text(
+                                          mountain.name,
+                                          style: TextStyle(
+                                            color: Colors.yellowAccent,
+                                            fontSize: 27,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        Positioned(
-                                          top: 30, // Adjust the position as needed
-                                          left: 30, // Adjust the position as needed
-                                          child: Text(
-                                            mountain.name,
-                                            style: TextStyle(
-                                              color: Colors.yellowAccent,
-                                              fontSize: 27,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
+                                      ),
 
-                                      ],
-                                    ),
-                                  )
-                                ],
+                                    ],
+                                  ),
+                                )
+                              ],
                             )
                         );
                       }
