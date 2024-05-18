@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             'Explore Mountains Here',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 25,
+                              fontSize: 28,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -202,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
-                          height: 200,
+                          height: 210,
                           width: 180,
                           color: Color(0xFFDA0C81),
                           child: Stack(
@@ -240,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
-                          height: 200,
+                          height: 210,
                           width: 180,
                           color: Color(0xFF4CCD99),
                           child: Stack(
