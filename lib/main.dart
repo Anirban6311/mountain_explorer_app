@@ -7,7 +7,6 @@ import 'Services/database.dart';
 
 void main() async{
 
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
@@ -15,10 +14,12 @@ void main() async{
       appId: "1:935877536444:android:368c2f66c23a856153beb9",
       messagingSenderId: "935877536444",
       projectId: "btack-5f03e",
+        storageBucket: "btack-5f03e.appspot.com"
     ),
   );
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

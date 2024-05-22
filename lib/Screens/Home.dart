@@ -9,6 +9,8 @@ import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
+import 'Community/login_screen.dart';
+import 'Community/signup_screen.dart';
 import 'MountainSearchScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -229,13 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TrekkerBlogScreen(),
-                          ),
-                        );
-
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),

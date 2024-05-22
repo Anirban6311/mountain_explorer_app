@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Screens/Home.dart';
 import '../models/onboarding_info.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OnboardingController extends GetxController {
   var selectedPageIndex = 0.obs;

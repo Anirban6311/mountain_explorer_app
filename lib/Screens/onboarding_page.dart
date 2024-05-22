@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import '../controllers/onboarding_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OnboardingPage extends StatelessWidget {
   final OnboardingController _controller = OnboardingController();
@@ -24,8 +25,11 @@ class OnboardingPage extends StatelessWidget {
                         SizedBox(height: 32),
                         Text(
                           _controller.onboardingPages[index].title,
-                          style: TextStyle(
-                              fontSize: 27, fontWeight: FontWeight.w500,),
+
+                          style: GoogleFonts.montserrat(
+                             fontSize: 30,
+                              fontWeight: FontWeight.w500,
+                          ),
                         ),
                         SizedBox(height: 32),
                         Padding(
