@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -157,12 +158,16 @@ class _allmountainsviewState extends State<allmountainsview> {
               child: AspectRatio(
                 aspectRatio: 9 / 16,
                 child: mountain.imageUrl != null
-                    ? Image.network(
-                  mountain.imageUrl!,
+                    ? CachedNetworkImage(
+                  imageUrl: mountain.imageUrl!,
                   fit: BoxFit.cover,
+                  placeholder: (context, url) => Center(
+                    child: CircularProgressIndicator(), // Display circular loader while image is loading
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error), // Display error icon if image fails to load
                 )
                     : Center(
-                  child: CircularProgressIndicator(), // Display circular loader while image is loading
+                  child: CircularProgressIndicator(), // Display circular loader while image URL is null
                 ),
               ),
             ),

@@ -8,7 +8,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: AppBar(
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: Colors.lightBlueAccent,
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

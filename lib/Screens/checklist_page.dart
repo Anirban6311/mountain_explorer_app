@@ -70,7 +70,7 @@ class _ChecklistState extends State<Checklist> {
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        color: Color(0xFF97E7E1),
+        color: Colors.lightBlueAccent,
         child: Row(
           children: [
             Expanded(

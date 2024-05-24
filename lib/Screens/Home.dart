@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: TextField(
                       controller: _locationController,
                       decoration: InputDecoration(
-                        hintText: "Search",
+                        hintText: "Search places here",
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 5),
                         border: InputBorder.none,
