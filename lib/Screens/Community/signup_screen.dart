@@ -1,5 +1,5 @@
-import 'package:basic_crud_flutter/Screens/Community/addPost.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,12 +17,13 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool showSpinner = false;
 
-  String email = "", password = "";
+  String email = "", password = "", name = "";
 
   @override
   Widget build(BuildContext context) {
@@ -74,20 +75,39 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Column(
                           children: [
                             TextFormField(
-                              controller: emailController,
-                              keyboardType: TextInputType.emailAddress,
+                              controller: nameController,
+                              keyboardType: TextInputType.name,
                               decoration: InputDecoration(
-                                hintText: "Email",
-                                labelText: "Email",
-                                prefixIcon: Icon(Icons.email),
+                                hintText: "Username",
+                                labelText: "Username",
+                                prefixIcon: Icon(Icons.person),
                                 border: OutlineInputBorder(),
                               ),
                               onChanged: (String value) {
-                                email = value;
+                                name = value;
                               },
                               validator: (value) {
-                                return value!.isEmpty ? "Enter Email" : null;
+                                return value!.isEmpty ? "Enter Username" : null;
                               },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: TextFormField(
+                                controller: emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                  hintText: "Email",
+                                  labelText: "Email",
+                                  prefixIcon: Icon(Icons.email),
+                                  border: OutlineInputBorder(),
+                                ),
+                                onChanged: (String value) {
+                                  email = value;
+                                },
+                                validator: (value) {
+                                  return value!.isEmpty ? "Enter Email" : null;
+                                },
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -125,33 +145,40 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                               ),
                               child: ElevatedButton(
-                                  onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() {
-                                        showSpinner = true;
-                                      });
-                                      try {
-                                        final user = await _auth.createUserWithEmailAndPassword(
-                                          email: email.trim(),
-                                          password: password.trim(),
-                                        );
-                                        if (user != null) {
-                                          print("Success");
-                                          ToastMessages("User successfully created");
-                                          setState(() {
-                                            showSpinner = false;
-                                          });
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => AddPost()));
-                                        }
-                                      } catch (e) {
-                                        print(e.toString());
-                                        ToastMessages(e.toString());
+                                onPressed: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    setState(() {
+                                      showSpinner = true;
+                                    });
+                                    try {
+                                      final userCredential = await _auth.createUserWithEmailAndPassword(
+                                        email: email.trim(),
+                                        password: password.trim(),
+                                      );
+
+                                      User? user = userCredential.user;
+
+                                      if (user != null) {
+                                        await user.updateDisplayName(name);
+                                        await user.reload();
+                                        user = _auth.currentUser;
+
+                                        print("Success");
+                                        ToastMessages("User successfully created");
                                         setState(() {
                                           showSpinner = false;
                                         });
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => communityHome()));
                                       }
+                                    } catch (e) {
+                                      print(e.toString());
+                                      ToastMessages(e.toString());
+                                      setState(() {
+                                        showSpinner = false;
+                                      });
                                     }
-                                  },
+                                  }
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.transparent, // To maintain the gradient color
                                   shadowColor: Colors.transparent,
@@ -161,7 +188,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   padding: EdgeInsets.symmetric(vertical: 15.0),
                                 ),
                                 child: Text(
-                                  'Log in',
+                                  'Sign Up',
                                   style: TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.white,
@@ -174,8 +201,10 @@ class _SignupScreenState extends State<SignupScreen> {
                               child: RichText(
                                 text: TextSpan(
                                   text: 'Already a user? ',
-                                  style: TextStyle(color: Colors.black,
-                                  fontSize: 17),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 17,
+                                  ),
                                   children: <TextSpan>[
                                     TextSpan(
                                       text: 'Login',

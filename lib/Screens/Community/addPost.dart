@@ -21,7 +21,7 @@ class _AddPostState extends State<AddPost> {
   bool showSpinner = false;
   final postRef = FirebaseDatabase.instance.reference().child('Posts');
   firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
-  FirebaseAuth _auth=FirebaseAuth.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   File? _image;
   final picker = ImagePicker();
@@ -96,127 +96,156 @@ class _AddPostState extends State<AddPost> {
     return ModalProgressHUD(
       inAsyncCall: showSpinner,
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 60),
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    dialog(context);
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * .2,
-                    width: MediaQuery.of(context).size.width,
-                    child: _image != null
-                        ? ClipRect(
-                      child: Image.file(
-                        _image!,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                        : Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      width: 100,
-                      height: 100,
-                      child: Icon(
-                        Icons.camera,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
+        body: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/Images/2151123524.jpg'), // Replace with your background image
+                  fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 30),
-              Form(
+            ),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    TextFormField(
-                      controller: titleController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        labelText: "Title",
-                        hintText: "Enter post title",
-                        border: OutlineInputBorder(),
+                    SizedBox(height: 60),
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          dialog(context);
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * .2,
+                          width: MediaQuery.of(context).size.width,
+                          child: _image != null
+                              ? ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.file(
+                              _image!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                              : Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            width: 100,
+                            height: 100,
+                            child: Icon(
+                              Icons.camera,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(height: 30),
-                    TextFormField(
-                      controller: descriptionController,
-                      keyboardType: TextInputType.text,
-                      minLines: 1,
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                        labelText: "Description",
-                        hintText: "Enter post description",
-                        border: OutlineInputBorder(),
+                    Form(
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: titleController,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              labelText: "Title",
+                              hintText: "Enter post title",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.8),
+                            ),
+                          ),
+                          SizedBox(height: 30),
+                          TextFormField(
+                            controller: descriptionController,
+                            keyboardType: TextInputType.text,
+                            minLines: 1,
+                            maxLines: 20,
+                            decoration: InputDecoration(
+                              labelText: "Description",
+                              hintText: "Enter post description",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.8),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30),
+                    ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          showSpinner = true;
+                        });
+                        try {
+                          int date = DateTime.now().microsecondsSinceEpoch;
+
+                          // Image uploading
+                          firebase_storage.Reference ref =
+                          firebase_storage.FirebaseStorage.instance.ref('/monuments_app$date');
+                          UploadTask uploadTask = ref.putFile(_image!.absolute);
+                          await Future.value(uploadTask);
+                          var newUrl = await ref.getDownloadURL();
+
+                          final User? user = _auth.currentUser;
+
+                          // Image storing in database
+                          postRef.child('Post List').child(date.toString()).set({
+                            'pId': date.toString(),
+                            'pImage': newUrl.toString(),
+                            'pTime': date.toString(),
+                            'pTitle': titleController.text.toString(),
+                            'pDescription': descriptionController.text.toString(),
+                            'uEmail': user!.email.toString(),
+                            'uid': user.uid.toString(),
+                            'uName' : user.displayName.toString()
+
+                          }).then((value) {
+                            ToastMessages("Post Uploaded");
+                            setState(() {
+                              showSpinner = false;
+                            });
+                          }).onError((error, stackTrace) {
+                            ToastMessages(error.toString());
+                            setState(() {
+                              showSpinner = false;
+                            });
+                          });
+                        } catch (e) {
+                          setState(() {
+                            showSpinner = false;
+                          });
+                          ToastMessages(e.toString());
+                        }
+                      },
+                      child: Text("Post your story"),
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () async{
-                  setState(() {
-                    showSpinner=true;
-                  });
-                  try{
-
-                    int date=DateTime.now().microsecondsSinceEpoch;
-
-                    //Image uploading
-                    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref('/monuments_app$date');
-                    UploadTask uploadTask = ref.putFile(_image!.absolute);
-                    await Future.value(uploadTask);
-                    var newUrl=await ref.getDownloadURL();
-
-                    final User? user = _auth.currentUser;
-
-                    //Image storing in database
-                    postRef.child('Post List').child(date.toString()).set(
-                        {
-                          'pId': date.toString(),
-                          'pImage': newUrl.toString(),
-                          'pTime': date.toString(),
-                          'pTitle': titleController.text.toString(),
-                          'pDescription': descriptionController.text.toString(),
-                          'uEmail': user!.email.toString(),
-                          'uid': user!.uid.toString(),
-                        }).then((value) {
-                       ToastMessages("Post Uploaded");
-                       setState(() {
-                         showSpinner=false;
-                       });
-
-                    }).onError((error, stackTrace){
-                      ToastMessages(error.toString());
-                      setState(() {
-                        showSpinner=false;
-                      });
-                    });
-
-                  }catch(e){
-                    setState(() {
-                      showSpinner=false;
-                    });
-                    ToastMessages(e.toString());
-                  }
-
-                },
-                child: Text("Post your story"),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+
   void ToastMessages(String message) {
     Fluttertoast.showToast(
       msg: message,

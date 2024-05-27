@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -187,7 +188,7 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
                           repeatForever: true, // Set to true to repeat the animation infinitely
                           animatedTexts: [
                             TypewriterAnimatedText(
-                              "This is the app",
+                              "Hold on! we are searching",
                               textStyle: TextStyle(
                                 fontSize: 30,
                               ),
@@ -218,13 +219,16 @@ class _HillStationSearchPageState extends State<HillStationSearchPage> {
                                       Container(
                                         height:360,
                                         width: 350,
-                                        child: AspectRatio(
-                                            aspectRatio: 9 / 16,
-                                            child: Image.network(
-                                              mountain.imageUrl,
-                                              fit: BoxFit.cover,
-                                            )
-                                        ),
+                                        child:AspectRatio(
+                                          aspectRatio: 9 / 16,
+                                          child: CachedNetworkImage(
+                                            imageUrl: mountain.imageUrl,
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                                            errorWidget: (context, url, error) => Center(child: Icon(Icons.error)),
+                                          ),
+                                        )
+
                                       ),
                                       Positioned(
                                         top: 30, // Adjust the position as needed
