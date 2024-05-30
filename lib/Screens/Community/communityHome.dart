@@ -24,6 +24,7 @@ class _communityHomeState extends State<communityHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.redAccent,
         title: Text("New Blogs"),
         centerTitle: true,
         actions: [
@@ -40,85 +41,99 @@ class _communityHomeState extends State<communityHome> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: FirebaseAnimatedList(
-                query: dbRef.child('Post List'),
-                itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                    Animation<double> animation, int index) {
-                  if (snapshot.value == null) {
-                    return const CircularProgressIndicator();
-                  } else {
-                    final data = snapshot.value as Map<dynamic, dynamic>;
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BlogDetailScreen(
-                                imageUrl: data['pImage'],
-                                title: data['pTitle'],
-                                description: data['pDescription'],
-                                pId: data['pId'],
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/Images/314.jpg'), // Replace with your background image
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: FirebaseAnimatedList(
+                    query: dbRef.child('Post List'),
+                    itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                        Animation<double> animation, int index) {
+                      if (snapshot.value == null) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        final data = snapshot.value as Map<dynamic, dynamic>;
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BlogDetailScreen(
+                                    imageUrl: data['pImage'],
+                                    title: data['pTitle'],
+                                    description: data['pDescription'],
+                                    pId: data['pId'],
+                                    likes: [],
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                                    child: CachedNetworkImage(
+                                      imageUrl: data['pImage'],
+                                      placeholder: (context, url) => Image.asset('assets/Images/drawer_mountain.jpg'),
+                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                      fadeInDuration: Duration(milliseconds: 500),
+                                      height: 200,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Padding(
+
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data['pTitle'],
+                                          style: GoogleFonts.montserrat(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
+                                    ),
+                                  ),
+
+                                ],
                               ),
                             ),
-                          );
-                        },
-                        child: Card(
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                                child: CachedNetworkImage(
-                                  imageUrl: data['pImage'],
-                                  placeholder: (context, url) => Image.asset('assets/Images/drawer_mountain.jpg'),
-                                  errorWidget: (context, url, error) => Icon(Icons.error),
-                                  fadeInDuration: Duration(milliseconds: 500),
-                                  height: 200,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data['pTitle'],
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                  ],
-                                ),
-                              ),
-
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            )
-          ],
-        ),
+                        );
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

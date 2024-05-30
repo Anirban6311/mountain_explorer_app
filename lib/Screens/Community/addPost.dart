@@ -208,7 +208,9 @@ class _AddPostState extends State<AddPost> {
                             'pDescription': descriptionController.text.toString(),
                             'uEmail': user!.email.toString(),
                             'uid': user.uid.toString(),
-                            'uName' : user.displayName.toString()
+                            'uName' : user.displayName.toString(),
+                            'likes' : []
+                            ///likes may be added
 
                           }).then((value) {
                             ToastMessages("Post Uploaded");

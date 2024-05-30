@@ -1,3 +1,4 @@
+import 'package:basic_crud_flutter/Screens/Community/profiles/like_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,21 +6,64 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 
-class BlogDetailScreen extends StatelessWidget {
-  final currentUser = FirebaseAuth.instance.currentUser!;
-  final TextEditingController commentController = TextEditingController();
-
+class BlogDetailScreen extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String description;
   final String pId;
+  final List<String> likes;
 
   BlogDetailScreen({
     required this.imageUrl,
     required this.title,
     required this.description,
     required this.pId,
+    required this.likes,
   });
+
+  @override
+  State<BlogDetailScreen> createState() => _BlogDetailScreenState();
+}
+
+class _BlogDetailScreenState extends State<BlogDetailScreen> {
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isLiked = widget.likes.contains(currentUser.email);
+  }
+
+  void toggleLike() async {
+    setState(() {
+      isLiked = !isLiked;
+    });
+    DocumentReference postRef = FirebaseFirestore.instance.collection('Posts').doc(widget.pId);
+
+    if (isLiked) {
+      // If post is liked, add the email to the likes field
+      await postRef.update({
+        'likes': FieldValue.arrayUnion([currentUser.email])
+      });
+    } else {
+      // If post is unliked, remove the email from the likes field
+      await postRef.update({
+        'likes': FieldValue.arrayRemove([currentUser.email])
+      });
+    }
+
+    // Update the local likes list to reflect the new state
+    setState(() {
+      if (isLiked) {
+        widget.likes.add(currentUser.email!);
+      } else {
+        widget.likes.remove(currentUser.email);
+      }
+    });
+  }
+
+  final TextEditingController commentController = TextEditingController();
 
   void addComment(BuildContext context, String commentText) async {
     if (commentText.trim().isEmpty) {
@@ -31,7 +75,7 @@ class BlogDetailScreen extends StatelessWidget {
 
     await FirebaseFirestore.instance
         .collection("Posts")
-        .doc(pId)
+        .doc(widget.pId)
         .collection("comments")
         .add({
       "CommentText": commentText,
@@ -40,7 +84,7 @@ class BlogDetailScreen extends StatelessWidget {
     });
 
     commentController.clear();
-    Navigator.pop(context);  // Close the dialog after adding the comment
+    Navigator.pop(context);
   }
 
   void showCommentDialog(BuildContext context) {
@@ -78,7 +122,7 @@ class BlogDetailScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10),
             child: CachedNetworkImage(
-              imageUrl: imageUrl,
+              imageUrl: widget.imageUrl,
               placeholder: (context, url) =>
                   Image.asset('Images/drawer_mountain.jpg'),
               errorWidget: (context, url, error) => Icon(Icons.error),
@@ -121,7 +165,7 @@ class BlogDetailScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  title,
+                                  widget.title,
                                   style: TextStyle(
                                     fontSize: 24.0,
                                     fontWeight: FontWeight.bold,
@@ -129,7 +173,7 @@ class BlogDetailScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 16.0),
                                 Text(
-                                  description,
+                                  widget.description,
                                   style: TextStyle(
                                     fontSize: 16.0,
                                   ),
@@ -138,18 +182,32 @@ class BlogDetailScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          IconButton(
-                            icon: Icon(Icons.comment),
-                            onPressed: () => showCommentDialog(context),
+                          Column(
+                            children: [
+                              Column(
+                                children: [
+                                  LikedButton(
+                                    isLiked: isLiked,
+                                    onTap: toggleLike,
+                                  ),
+                                  Text(widget.likes.length.toString()),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              IconButton(
+                                icon: Icon(Icons.comment),
+                                onPressed: () => showCommentDialog(context),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 30,),
+                    SizedBox(height: 30),
                     StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection("Posts")
-                          .doc(pId)
+                          .doc(widget.pId)
                           .collection("comments")
                           .orderBy("CommentTime", descending: true)
                           .snapshots(),
@@ -164,8 +222,10 @@ class BlogDetailScreen extends StatelessWidget {
                           itemCount: comments.length,
                           itemBuilder: (context, index) {
                             final comment = comments[index];
-                            DateTime commentTime = (comment["CommentTime"] as Timestamp).toDate();
-                            String formattedDate = DateFormat('dd/MM/yyyy').format(commentTime);
+                            DateTime commentTime =
+                            (comment["CommentTime"] as Timestamp).toDate();
+                            String formattedDate =
+                            DateFormat('dd/MM/yyyy').format(commentTime);
                             return ListTile(
                               title: Text(comment["CommentedBy"]),
                               subtitle: Text(comment["CommentText"]),
