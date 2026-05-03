@@ -1,0 +1,4 @@
+- [Project: Clean Architecture + MVVM refactor](project_refactor.md) — Flutter mountain-explorer app being refactored from ad-hoc GetX into Clean Arch + MVVM; iteration 1 is the foundation (DI, router, theme, shared widgets).
+- [Project: pubspec identity is `basic_crud_flutter`](project_pubspec_name.md) — the package name in imports is `basic_crud_flutter`, not `mountain_explorer_app` (directory name differs from pubspec name).
+- [Feedback: dotenv-as-asset is a known anti-pattern here](feedback_dotenv_security.md) — flag API keys bundled via `flutter_dotenv` as assets; they end up inside release binaries.
+- [Feedback: return review findings inline, not as files](feedback_output_format.md) — when asked to "overwrite TASK.md", still answer inline; parent agent reads assistant text, and system rules forbid writing report `.md` files.

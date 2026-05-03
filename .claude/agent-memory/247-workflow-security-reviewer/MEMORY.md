@@ -1,0 +1,2 @@
+- [SOS rule createdAt is client-settable](project_sos_createdat_clientset.md) — sos_alerts create rule whitelists `createdAt` but does not pin it to `request.time`; client clock skew / tampering can bypass the 6h flush.
+- [Outbox sqflite plaintext carryover](project_outbox_sqflite_plaintext.md) — Iter 5a H1 still open in 5b; plaintext SOS payload (lat/lng, contacts, email) persists in sqflite, AndroidManifest does not set allowBackup=false.

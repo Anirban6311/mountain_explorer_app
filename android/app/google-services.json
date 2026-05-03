@@ -1,18 +1,32 @@
 {
   "project_info": {
     "project_number": "935877536444",
+    "firebase_url": "https://btack-5f03e-default-rtdb.firebaseio.com",
     "project_id": "btack-5f03e",
     "storage_bucket": "btack-5f03e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:935877536444:android:368c2f66c23a856153beb9",
+        "mobilesdk_app_id": "1:935877536444:android:88544b1137f3aee853beb9",
         "android_client_info": {
-          "package_name": "com.example.monuments_app"
+          "package_name": "com.example.mountainExplorer"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "935877536444-bgiec0eg2g74er0s37io8lcraoiar4bm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mountainExplorer",
+            "certificate_hash": "effb58b0260cfd31c8911705eeac45bba033cd07"
+          }
+        },
+        {
+          "client_id": "935877536444-9065b8go47v83kc00v39smgfr6rsd63t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCbuzacMkEh-B-yCjFKEwNnDsNS5R8mxA8"
@@ -20,7 +34,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935877536444-9065b8go47v83kc00v39smgfr6rsd63t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "935877536444-fnka0ogsvo64bl0alo51944agc3of4h1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mountainExplorer"
+              }
+            }
+          ]
         }
       }
     }

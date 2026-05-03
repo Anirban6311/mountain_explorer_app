@@ -1,0 +1,180 @@
+rules_version = '2';
+
+// Authored for Iteration 4, updated in Iteration 5 review to un-block
+// non-owner likes and tighten create-time field checks. Deploy with
+// `firebase deploy --only firestore:rules` once Firebase CLI + the target
+// project are wired up — not part of this iteration's code change.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Mountains: public read for signed-in users (guest included);
+    // writes done out-of-band via the seeder script, never from the client.
+    match /mountains/{mountainId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // Per-user private data (liked mountains, checklist).
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null
+                       && request.auth.uid == uid;
+    }
+
+    // Community posts.
+    match /posts/{postId} {
+      allow read: if request.auth != null;
+
+      allow create: if request.auth != null
+                 && request.auth.token.email_verified == true
+                 && request.resource.data.uid == request.auth.uid
+                 && request.resource.data.keys().hasAll(
+                      ['uid','uEmail','uName','pTitle','pDescription','pImage','pTime','likes'])
+                 && request.resource.data.pTitle is string
+                 && request.resource.data.pTitle.size() > 0
+                 && request.resource.data.pTitle.size() <= 80
+                 && request.resource.data.pDescription is string
+                 && request.resource.data.pDescription.size() > 0
+                 && request.resource.data.pDescription.size() <= 2000
+                 && request.resource.data.likes is list
+                 && request.resource.data.likes.size() == 0;
+
+      // Two update paths:
+      //   (a) owner can edit pTitle / pDescription (and optionally retouch
+      //       their own like state);
+      //   (b) any authed user can toggle their own uid in/out of `likes`
+      //       without touching any other field.
+      allow update: if request.auth != null && (
+        // (a) owner fields-only update
+        (resource.data.uid == request.auth.uid
+          && request.resource.data.diff(resource.data)
+              .affectedKeys()
+              .hasOnly(['pTitle','pDescription','likes']))
+        ||
+        // (b) likes-only toggle by any authed user
+        (request.resource.data.diff(resource.data)
+            .affectedKeys()
+            .hasOnly(['likes'])
+          && request.resource.data.likes is list
+          // The new `likes` differs from the old by exactly the caller's uid
+          // (either added or removed).
+          && (request.resource.data.likes.toSet()
+                .difference(resource.data.likes.toSet())
+                == [request.auth.uid].toSet()
+              || resource.data.likes.toSet()
+                    .difference(request.resource.data.likes.toSet())
+                    == [request.auth.uid].toSet()))
+      );
+
+      allow delete: if request.auth != null
+                 && resource.data.uid == request.auth.uid;
+
+      match /comments/{commentId} {
+        allow read: if request.auth != null;
+
+        allow create: if request.auth != null
+                   && request.auth.token.email_verified == true
+                   && request.resource.data.commentedBy == request.auth.uid
+                   && request.resource.data.text is string
+                   && request.resource.data.text.size() > 0
+                   && request.resource.data.text.size() <= 500;
+
+        // Only the comment author can delete their comment.
+        allow delete: if request.auth != null
+                   && resource.data.commentedBy == request.auth.uid;
+
+        // Comments are append-only; no updates.
+        allow update: if false;
+      }
+    }
+
+    // SOS alerts. Owner-only create/read/update; never delete (cancel
+    // flips the status field instead).
+    match /sos_alerts/{alertId} {
+      allow create: if request.auth != null
+                 && request.auth.token.firebase.sign_in_provider != 'anonymous'
+                 && request.resource.data.uid == request.auth.uid
+                 && request.resource.data.status == 'active'
+                 && request.resource.data.keys().hasAll(
+                      ['uid', 'createdAt', 'status', 'lat', 'lng',
+                       'userName', 'userEmail', 'contactsNotified'])
+                 // Whitelist every key the client may set so a tampered
+                 // payload cannot smuggle additional fields. Optional
+                 // fields (accuracy/altitude/batteryLevel/trekBreadcrumbs)
+                 // are listed but not required.
+                 && request.resource.data.keys().hasOnly(
+                      ['uid', 'createdAt', 'status', 'lat', 'lng',
+                       'accuracy', 'altitude', 'batteryLevel',
+                       'userName', 'userEmail', 'contactsNotified',
+                       'trekBreadcrumbs', 'lastSeenAt'])
+                 // Iter 5b: pin createdAt + lastSeenAt to server-time.
+                 // Without this, a tampered client could backdate or
+                 // far-future-date createdAt to bypass the 6h flush in
+                 // either direction. FieldValue.serverTimestamp() in the
+                 // legitimate write path resolves to request.time at rule
+                 // evaluation, so this is compatible.
+                 && request.resource.data.createdAt == request.time
+                 && request.resource.data.lastSeenAt == request.time
+                 // Trek trail is capped at 50 entries. Omitted when not
+                 // tracking. Each entry's shape isn't enforced here —
+                 // Firestore rules can't iterate lists. Iter 5a hard-codes
+                 // the cap on the client (SosRepositoryImpl).
+                 && (!('trekBreadcrumbs' in request.resource.data.keys())
+                     || (request.resource.data.trekBreadcrumbs is list
+                         && request.resource.data.trekBreadcrumbs.size() <= 50));
+      allow read: if request.auth != null
+               && resource.data.uid == request.auth.uid;
+      // Updates restricted to status + lastSeenAt only. Owner cannot
+      // rewrite the immutable payload (uid, lat/lng, userEmail, etc.).
+      // Iter 5b: also pin lastSeenAt to server-time so an owner cannot
+      // backdate the alert's freshness signal (responder reads the
+      // breadcrumb subcollection's most recent doc id, but defense in
+      // depth is cheap).
+      allow update: if request.auth != null
+                 && resource.data.uid == request.auth.uid
+                 && request.resource.data.uid == resource.data.uid
+                 && request.resource.data.diff(resource.data)
+                      .affectedKeys()
+                      .hasOnly(['status', 'lastSeenAt'])
+                 && request.resource.data.status in
+                      ['active', 'cancelled', 'resolved', 'timed_out']
+                 && request.resource.data.lastSeenAt == request.time;
+      allow delete: if false;
+
+      // Iter 5b: live breadcrumb subcollection written every 30s
+      // (120s when battery < 20%) while an SOS alert is active.
+      // Owner-only via the parent alert's uid; field shape pinned.
+      match /breadcrumbs/{breadcrumbId} {
+        allow read: if request.auth != null
+                 && get(/databases/$(database)/documents/sos_alerts/$(alertId))
+                      .data.uid == request.auth.uid;
+        allow create: if request.auth != null
+                   && get(/databases/$(database)/documents/sos_alerts/$(alertId))
+                        .data.uid == request.auth.uid
+                   && request.resource.data.keys().hasOnly(
+                        ['ts', 'lat', 'lng', 'accuracy', 'altitude', 'battery'])
+                   && request.resource.data.keys().hasAll(
+                        ['ts', 'lat', 'lng'])
+                   && request.resource.data.ts is int
+                   && request.resource.data.lat is number
+                   && request.resource.data.lng is number
+                   // Iter 5b: sanity bounds. Without these, a tampered
+                   // client could write `ts: -1` (sorts above all
+                   // positive doc ids in lex order) or out-of-Earth
+                   // lat/lng to pollute the responder's view of the
+                   // trail. ts > 2023-11-14 (~1700e9 ms) and < year
+                   // 2286 (~10^13 ms). lat/lng pinned to Earth.
+                   && request.resource.data.ts > 1700000000000
+                   && request.resource.data.ts < 9999999999999
+                   && request.resource.data.lat >= -90
+                   && request.resource.data.lat <= 90
+                   && request.resource.data.lng >= -180
+                   && request.resource.data.lng <= 180;
+        // Breadcrumbs are immutable from the client. The 5b client
+        // writes via doc(tsMs).set(...) which Firestore treats as
+        // create-or-overwrite — overwrites are blocked here, but the
+        // tsMs collision rate at 30s cadence is effectively zero.
+        allow update, delete: if false;
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>935877536444-fnka0ogsvo64bl0alo51944agc3of4h1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.935877536444-fnka0ogsvo64bl0alo51944agc3of4h1</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>935877536444-bgiec0eg2g74er0s37io8lcraoiar4bm.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDcMulEPfsJIvlWcQhKdOQk5Fql55W-LYs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>935877536444</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.mountainExplorer</string>
+	<key>PROJECT_ID</key>
+	<string>btack-5f03e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>btack-5f03e.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:935877536444:ios:3d3792dfe6a9e7e453beb9</string>
+	<key>DATABASE_URL</key>
+	<string>https://btack-5f03e-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
